@@ -4,7 +4,7 @@ from models import User
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py', silent=True)
-app.jinja_env.line_statement_prefix = '#'
+app.jinja_env.line_statement_prefix = '##'
 db.init_app(app)
 
 
@@ -16,12 +16,7 @@ def hello(name=None):
 
 @app.route('/usuario')
 def usuario():
-	u = User("Israel", "israelps@gmail.com")
-	db.session.add(u)
-	db.session.commit()
-	return render_template('usuario.html', usuario=u)
-
+    return render_template('usuario.html', usuarios=User.query.all())
 
 if __name__ == '__main__':
-
     app.run()

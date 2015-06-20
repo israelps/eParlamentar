@@ -5,9 +5,10 @@
 	<title>Usuarios</title>
 </head>
 <body>
-	#if usuario:
-	<p>nome: {{usuario.username}}</p>
-	<p>email: {{usuario.email}}</p>
-	#endif
+	##for u in usuarios:
+	<p>nome: {{u.username}}</p>
+	<p>email: {{u.email}}</p>
+	<p>----------------------------------</p>
+	##endfor
 </body>
 </html>
