@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deputados</title>
+</head>
+<body>
+{% for d in deputados %}
+    <div>
+        <h3><a href="deputados/{{ d.ideCadastro }}">{{ d.nome }}</a></h3>
+        <img src="{{ d.url_foto }}" alt="{{ d.nome }}"/>
+
+    </div>
+{% endfor %}
+</body>
+</html>
