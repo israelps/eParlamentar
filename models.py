@@ -62,9 +62,10 @@ class Deputado(db.Model):
 
 
 class Despesa(db.Model):
-    numRessarcimento = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    numRessarcimento = db.Column(db.Integer)
     sgUF = db.Column(db.String(2))
-    sgPartido = db.Column(db.String(2))
+    sgPartido = db.Column(db.String(10))
     txtDescricao = db.Column(db.String(200))
     txtFornecedor = db.Column(db.String(200))
     vlrLiquido = db.Column(db.Float)
@@ -87,23 +88,51 @@ class Despesa(db.Model):
 
     @classmethod
     def atualiza_database(self):
-        db.create_all()
+
         tree = etree.parse("D:\eParlamentar\AnoAtual.xml")
         despesas = tree.getroot()[0]
 
         for despesa in despesas:
-            numRessarcimento = int(despesa.find('numRessarcimento').text)
-            sgUF = despesa.find('sgUF').text
-            sgPartido = despesa.find('sgPartido').text
-            txtDescricao = despesa.find('txtDescricao').text
-            txtFornecedor = despesa.find('txtFornecedor').text
-            vlrLiquido = float(despesa.find('vlrLiquido').text)
-            numMes = despesa.find('numMes').text
-            numAno = despesa.find('numAno').text
-            deputado_id = int(despesa.find('ideCadastro').text)
+            sgUF = ''
+            sgPartido = ''
+            txtDescricao = ''
+            txtFornecedor = ''
+            numMes = ''
+            numAno = ''
+            try:
+                numRessarcimento = int(despesa.find('numRessarcimento').text)
+            except: None
+            try:
+                sgUF = despesa.find('sgUF').text
+            except: None
+            try:
+                sgPartido = despesa.find('sgPartido').text
+            except: None
+            try:
+                txtDescricao = despesa.find('txtDescricao').text
+            except: None
+            try:
+                vlrLiquido = float(despesa.find('vlrLiquido').text)
+            except: None
+            try:
+                numRessarcimento = int(despesa.find('numRessarcimento').text)
+            except: None
+            try:
+                numMes = despesa.find('numMes').text
+            except: None
+            try:
+               numAno = despesa.find('numAno').text
+            except: None
+            try:
+               txtFornecedor = despesa.find('txtFornecedor').text
+            except: None
+            try:
+               deputado_id = int(despesa.find('ideCadastro').text)
+            except: None
+
+
             d = Despesa(numRessarcimento,deputado_id,sgUF,sgPartido,txtDescricao,txtFornecedor,vlrLiquido,numMes,numAno)
             db.session.add(d)
-            db.session.commit()
         db.session.commit()
 
     def __repr__(self):
