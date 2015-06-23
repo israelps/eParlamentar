@@ -14,7 +14,7 @@ db.init_app(app)
 
 @app.route('/')
 def hello():
-    despesa_pt = Despesa.query.filter_by(sgPartido='PT',deputado_id=0)
+    despesa_pt = Despesa.query.filter_by(partido='PT',deputado_id=0)
     return render_template('index.html',despesa_pt=despesa_pt)
 
 
@@ -29,7 +29,7 @@ def despesas():
     total = 0
     despesas = Despesa.query.all()
     for despesa in despesas:
-        total += despesa.vlrLiquido
+        total += despesa.valor
     media = total / 513
     return render_template('despesas.html', total=locale.currency(total, grouping=True),
                            media=locale.currency(media, grouping=True))
@@ -41,7 +41,7 @@ def deputado(ideCadastro):
     despesas = deputado.despesas
     total = 0
     for despesa in despesas:
-        total += despesa.vlrLiquido
+        total += despesa.valor
     return render_template('deputado.html', despesas=despesas, deputado=deputado, total=locale.currency(total, grouping=True))
 
 

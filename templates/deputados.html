@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Deputados</title>
 </head>
+
 <body>
-{% for d in deputados %}
-    <div>
-
-        <img src="{{ d.url_foto }}" alt="{{ d.nome }}"/>
-        <h3><a href="deputados/{{ d.ideCadastro }}">{{ d.nome }}</a></h3>
-        <h4>{{ d.nomeParlamentar }}</h4>
-
+    <input type="search" id="input-search" placeholder="Busca Deputados...">
+    <div class="searchable-container">
+        {% for d in deputados %}
+        <div class="items">
+            <img src="{{ d.url_foto }}" alt="{{ d.nome }}" />
+            <h3><a href="deputados/{{ d.id }}">{{ d.nome_parlamentar }}</a><p>{{ d.nome }}</p></h3>            
+        </div>
+        {% endfor %}
     </div>
-{% endfor %}
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function () {
+            $('#input-search').on('keyup', function () {
+                var rex = new RegExp($(this).val(), 'i');
+                $('.searchable-container .items').hide();
+                $('.searchable-container .items').filter(function () {
+                    return rex.test($(this).text());
+                }).show();
+            });
+        });
+    </script>
 </body>
+
 </html>
