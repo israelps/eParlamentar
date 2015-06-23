@@ -5,11 +5,14 @@
     <title>Deputado</title>
 </head>
 <body>
-
 <h3>{{ deputado.nome }} - Esse puto já gastou {{ total }}</h3>
 <img src="{{ deputado.url_foto }}" alt=""/>
 <p>{{ deputado.email }} - {{ deputado.fone }}</p>
 <p>{{ deputado.gabinete }}</p>
 <p>FONE: {{ deputado.fone }}</p>
+<h3>Despesas:</h3>
+{% for d in despesas|sort(attribute='vlrLiquido', reverse=True) %}
+<p>Mes: {{ d.numMes }} - {{ d.txtDescricao }} - {{ d.vlrLiquido }} Fornecedor: {{ d.txtFornecedor }}</p>
+{% endfor %}
 </body>
 </html>

@@ -18,20 +18,7 @@ class Deputado(db.Model):
     fone = db.Column(db.String(15))
     email = db.Column(db.String(200))
     url_foto = db.Column(db.String(300))
-
-    def __init__(self, ideCadastro, nomeParlamentar, nome, condicao, uf, partido, gabinete, anexo, fone, email,
-                 url_foto):
-        self.ideCadastro = ideCadastro
-        self.nomeParlamentar = nomeParlamentar
-        self.nome = nome
-        self.condicao = condicao
-        self.uf = uf
-        self.partido = partido
-        self.gabinete = gabinete
-        self.anexo = anexo
-        self.fone = fone
-        self.email = email
-        self.url_foto = url_foto
+    despesas = db.relationship('Despesa', backref='deputado', lazy='dynamic')
 
     def __repr__(self):
         return '<Deputado %r>' % (self.nomeParlamentar)
@@ -54,8 +41,9 @@ class Deputado(db.Model):
                 fone = deputado.find('fone').text
                 email = deputado.find('email').text
                 url_foto = deputado.find('urlFoto').text
-                dep = Deputado(ideCadastro, nomeParlamentar, nome, condicao, uf, partido, gabinete, anexo, fone, email,
-                               url_foto)
+                dep = Deputado(ideCadastro=ideCadastro, nomeParlamentar=nomeParlamentar, nome=nome, condicao=condicao,
+                               uf=uf, partido=partido, gabinete=gabinete, anexo=anexo, fone=fone, email=email,
+                               url_foto=url_foto)
                 db.session.add(dep)
 
         db.session.commit()
@@ -71,20 +59,7 @@ class Despesa(db.Model):
     vlrLiquido = db.Column(db.Float)
     numMes = db.Column(db.Integer)
     numAno = db.Column(db.Integer)
-    deputado_id = db.Column(db.Integer)
-
-
-    def __init__(self, numRessarcimento, deputado_id, sgUf, sgPartido, txtDescricao, txtFornecedor, vlrLiquido, numMes,
-                 numAno):
-        self.numRessarcimento = numRessarcimento
-        self.deputado_id = deputado_id
-        self.sgUF = sgUf
-        self.sgPartido = sgPartido
-        self.txtDescricao = txtDescricao
-        self.txtFornecedor = txtFornecedor
-        self.vlrLiquido = vlrLiquido
-        self.numMes = numMes
-        self.numAno = numAno
+    deputado_id = db.Column(db.Integer, db.ForeignKey('deputado.ideCadastro'))
 
     @classmethod
     def atualiza_database(self):
@@ -93,45 +68,48 @@ class Despesa(db.Model):
         despesas = tree.getroot()[0]
 
         for despesa in despesas:
-            sgUF = ''
-            sgPartido = ''
-            txtDescricao = ''
-            txtFornecedor = ''
-            numMes = ''
-            numAno = ''
+
             try:
                 numRessarcimento = int(despesa.find('numRessarcimento').text)
-            except: None
+            except:
+                numRessarcimento = 0
             try:
                 sgUF = despesa.find('sgUF').text
-            except: None
+            except:
+                sgUF = ''
             try:
                 sgPartido = despesa.find('sgPartido').text
-            except: None
+            except:
+                sgPartido = ''
             try:
                 txtDescricao = despesa.find('txtDescricao').text
-            except: None
+            except:
+                txtDescricao = ''
             try:
                 vlrLiquido = float(despesa.find('vlrLiquido').text)
-            except: None
-            try:
-                numRessarcimento = int(despesa.find('numRessarcimento').text)
-            except: None
+            except:
+                vlrLiquido = ''
             try:
                 numMes = despesa.find('numMes').text
-            except: None
+            except:
+                numMes = ''
             try:
-               numAno = despesa.find('numAno').text
-            except: None
+                numAno = despesa.find('numAno').text
+            except:
+                numAno = ''
             try:
-               txtFornecedor = despesa.find('txtFornecedor').text
-            except: None
+                txtFornecedor = despesa.find('txtFornecedor').text
+            except:
+                txtFornecedor = ''
             try:
-               deputado_id = int(despesa.find('ideCadastro').text)
-            except: None
+                deputado_id = int(despesa.find('ideCadastro').text)
+            except:
+                deputado_id = 0
 
-
-            d = Despesa(numRessarcimento,deputado_id,sgUF,sgPartido,txtDescricao,txtFornecedor,vlrLiquido,numMes,numAno)
+            deputado = Deputado.query.get(deputado_id)
+            d = Despesa(numRessarcimento=numRessarcimento, deputado_id=deputado_id, sgUF=sgUF, sgPartido=sgPartido,
+                        txtDescricao=txtDescricao, txtFornecedor=txtFornecedor, vlrLiquido=vlrLiquido, numMes=numMes,
+                        numAno=numAno, deputado=deputado)
             db.session.add(d)
         db.session.commit()
 

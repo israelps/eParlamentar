@@ -7,8 +7,10 @@
 <body>
 {% for d in deputados %}
     <div>
-        <h3><a href="deputados/{{ d.ideCadastro }}">{{ d.nome }}</a></h3>
+
         <img src="{{ d.url_foto }}" alt="{{ d.nome }}"/>
+        <h3><a href="deputados/{{ d.ideCadastro }}">{{ d.nome }}</a></h3>
+        <h4>{{ d.nomeParlamentar }}</h4>
 
     </div>
 {% endfor %}

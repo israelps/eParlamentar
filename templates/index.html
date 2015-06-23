@@ -5,10 +5,13 @@
     <title>eParlamentar</title>
 </head>
 <body>
-<h1>Bem vindo ao eParlamentar</h1>
-{% if name %}
-    <p>bem vindo {{ name }}</p>
-{% endif %}
+<h1>Despesas do PT</h1>
+{% for i in despesa_pt %}
+<p>DESCRICAO :{{ i.txtDescricao }}</p>
+<p>VALOR :{{ i.vlrLiquido }}</p>
+<p>DEPUTADO_ID:{{ i.deputado_id }}</p>
 <div>TESTE</div>
+------------------------------------------------------
+{% endfor %}
 </body>
 </html>
