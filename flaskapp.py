@@ -14,7 +14,7 @@ db.init_app(app)
 
 @app.route('/')
 def hello():
-    despesa_pt = Despesa.query.filter_by(partido='PT',deputado_id=0)
+    despesa_pt = Despesa.query.filter_by(partido='PT',deputado_id=None)
     return render_template('index.html',despesa_pt=despesa_pt)
 
 
