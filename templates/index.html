@@ -6,11 +6,11 @@
 </head>
 <body>
 <h1>Despesas do PT</h1>
+<h2>Valor total: {{ valor }}</h2>
 {% for i in despesa_pt %}
 <p>DESCRICAO :{{ i.descricao }}</p>
 <p>VALOR :{{ i.valor }}</p>
 <p>DEPUTADO_ID:{{ i.deputado_id }}</p>
-<div>TESTE</div>
 ------------------------------------------------------
 {% endfor %}
 </body>

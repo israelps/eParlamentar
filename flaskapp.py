@@ -1,5 +1,7 @@
 import locale
+
 from flask import Flask, render_template, redirect
+import os
 from models import Despesa
 from models import Deputado
 from models import db
@@ -8,14 +10,20 @@ locale.setlocale(locale.LC_ALL, '')
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py', silent=True)
+if os.environ.get('OPENSHIFT_POSTGRESQL_DB_URL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('OPENSHIFT_POSTGRESQL_DB_URL')
+else: app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/eparlamentar'
 # app.jinja_env.line_statement_prefix = '##'
 db.init_app(app)
 
 
 @app.route('/')
 def hello():
-    despesa_pt = Despesa.query.filter_by(partido='PT',deputado_id=None)
-    return render_template('index.html',despesa_pt=despesa_pt)
+    despesa_pt = Despesa.query.filter_by(deputado_id=None)
+    valor = 0
+    for i in despesa_pt:
+        valor+=i.valor
+    return render_template('index.html',despesa_pt=despesa_pt, valor=locale.currency(valor, grouping=True))
 
 
 @app.route('/deputados')

@@ -25,6 +25,8 @@ class Deputado(db.Model):
 
     @classmethod
     def atualiza_database(self):
+        db.drop_all()
+        db.create_all()
         data = urllib2.urlopen("http://www.camara.gov.br/SitCamaraWS/Deputados.asmx/ObterDeputados").read()
         deputados = etree.XML(data)
 
