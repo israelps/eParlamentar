@@ -61,6 +61,7 @@ class Despesa(db.Model):
     valor = db.Column(db.Float)
     mes = db.Column(db.Integer)
     ano = db.Column(db.Integer)
+    num_subcota = db.Column(db.Integer)
     deputado_id = db.Column(db.Integer, db.ForeignKey('deputado.id'))
 
     @classmethod
@@ -79,6 +80,10 @@ class Despesa(db.Model):
                 uf = despesa.find('sgUF').text
             except:
                 uf = ''
+            try:
+                num_subcota = despesa.find('numSubCota').text
+            except:
+                num_subcota = ''
             try:
                 partido = despesa.find('sgPartido').text
             except:
@@ -109,7 +114,7 @@ class Despesa(db.Model):
                 deputado_id = 0
 
             deputado = Deputado.query.get(deputado_id)
-            d = Despesa(num_ressarcimento=num_ressarcimento, deputado_id=deputado_id, uf=uf, partido=partido,
+            d = Despesa(num_ressarcimento=num_ressarcimento, num_subcota=num_subcota ,deputado_id=deputado_id, uf=uf, partido=partido,
                         descricao=descricao, fornecedor=fornecedor, valor=valor, mes=mes,
                         ano=ano, deputado=deputado)
             db.session.add(d)
