@@ -1,6 +1,7 @@
+import os
 PROPAGATE_EXCEPTIONS = True
 DEBUG = True
-SQLALCHEMY_DATABASE_URI = 'postgres://adminvq6ppdb:fDXtvKhlpzpJ@127.0.0.1:5433/eparlamentar'
+SQLALCHEMY_DATABASE_URI = os.environ['OPENSHIFT_POSTGRESQL_DB_URL']
 SQLALCHEMY_ECHO = False
 
 DEBUG = True
