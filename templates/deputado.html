@@ -1,18 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Deputado</title>
-</head>
-<body>
-<h3>{{ deputado.nome }} - Esse puto já gastou {{ total }}</h3>
-<img src="{{ deputado.url_foto }}" alt=""/>
-<p>{{ deputado.email }} - {{ deputado.fone }}</p>
-<p>{{ deputado.gabinete }}</p>
-<p>FONE: {{ deputado.fone }}</p>
-<h3>Despesas:</h3>
-{% for d in despesas|sort(attribute='valor', reverse=True) %}
-<p>Mes: {{ d.mes }} - {{ d.descricao }} - {{ d.valor }}</p>
-{% endfor %}
-</body>
-</html>
+{% extends "layout.html" %} {% block content %}
+<div class="resume">
+    <header class="page-header">
+        <h1 class="page-title">{{ deputado.nome_parlamentar }}</h1>
+        <small><i class="fa fa-clock-o"></i> Atualizado pela última vez em:
+                <time>Hoje, 25 de Junho de 2015</time>
+            </small>
+    </header>
+    <div class="row">
+
+
+        <div class="col-md-2">
+            <figure>
+                <img class="img-circle img-responsive" alt="" src="{{ deputado.url_foto }}">
+            </figure>
+        </div>
+        <div class="col-md-4">
+            <ul class="list-group">
+                <li class="list-group-item">{{ deputado.nome }} -
+                    <strong>{{ deputado.nome_parlamentar }}</strong>
+                </li>
+                <li class="list-group-item">Gasto Total neste ano: <strong>{{ total }}</strong>
+                </li>
+                <li class="list-group-item">Partido: {{ deputado.partido }}/{{ deputado.uf }} - {{ deputado.condicao }} Gab: {{ deputado.gabinete }} / Anexo: {{ deputado.anexo }}</li>
+                <li class="list-group-item"><i class="fa fa-phone"></i> (61) {{ deputado.fone }}
+                </li>
+                <li class="list-group-item"><i class="fa fa-envelope"></i> {{ deputado.email }}
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="col-md-6 bs-callout bs-callout-danger">
+            <h4>Média de Gastos</h4>
+            <div>
+                <canvas id="canvas" ></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="bs-callout bs-callout-danger">
+        <h4>Despesas Totais</h4>
+        <table class="table table-striped table-responsive ">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Mes da despesa</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in despesas|sort(attribute='valor', reverse=True) %}
+                <tr>
+                    <td>{{ d.descricao }}</td>
+                    <td>{{ d.mes }}</td>
+                    <td> {{ d.valor }}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+{% endblock %}

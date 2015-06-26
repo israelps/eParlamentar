@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Deputados</title>
-</head>
-
-<body>
+{% extends "layout.html" %}
+{% block content %}
     <input type="search" id="input-search" placeholder="Busca Deputados...">
     <div class="searchable-container">
         {% for d in deputados %}
         <div class="items">
             <img src="{{ d.url_foto }}" alt="{{ d.nome }}" />
-            <h3><a href="deputados/{{ d.id }}">{{ d.nome_parlamentar }}</a><p>{{ d.nome }}</p></h3>            
+            <h3><a href="deputados/{{ d.id }}">{{ d.nome_parlamentar }}</a></h3>
         </div>
         {% endfor %}
     </div>
@@ -28,6 +21,4 @@
             });
         });
     </script>
-</body>
-
-</html>
+{% endblock %}
