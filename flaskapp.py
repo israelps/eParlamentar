@@ -10,9 +10,9 @@ locale.setlocale(locale.LC_ALL, '')
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py', silent=True)
-'''if os.environ.get('OPENSHIFT_POSTGRESQL_DB_URL'):
+if os.environ.get('OPENSHIFT_POSTGRESQL_DB_URL'):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('OPENSHIFT_POSTGRESQL_DB_URL')
-else: app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/eparlamentar'''
+else: app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/eparlamentar'
 # app.jinja_env.line_statement_prefix = '##'
 db.init_app(app)
 
