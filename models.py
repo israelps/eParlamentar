@@ -5,7 +5,7 @@ from urllib import urlretrieve
 from zipfile import ZipFile
 import os
 from lxml import etree
-from sqlalchemy.orm.util import all_cascades
+
 
 db = SQLAlchemy()
 

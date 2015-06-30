@@ -4,7 +4,7 @@ from models import Despesa
 from models import Deputado
 from models import db
 
-locale.setlocale(locale.LC_ALL, '')
+locale.setlocale( locale.LC_ALL, 'pt_BR.UTF-8' )
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py', silent=True)
