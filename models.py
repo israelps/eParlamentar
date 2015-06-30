@@ -76,7 +76,7 @@ class Despesa(db.Model):
             path = os.environ.get('OPENSHIFT_TMP_DIR')
             urlretrieve(url, path)
             with zipfile(path+'AnoAtual.zip') as zf:
-                zf.extractall(path)
+                zf.extractall()
         else:
             path = "D:\\eParlamentar\\"
 
