@@ -2,7 +2,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
 import urllib2
 from urllib import urlretrieve
-import ZipFile
+import zipfile
 import os
 from lxml import etree
 
@@ -75,7 +75,7 @@ class Despesa(db.Model):
             url = 'http://www.camara.gov.br/cotas/AnoAtual.zip'
             path = os.environ.get('OPENSHIFT_TMP_DIR')
             urlretrieve(url, path)
-            with ZipFile(path+'AnoAtual.zip') as zf:
+            with zipfile(path+'AnoAtual.zip') as zf:
                 zf.extractall(path)
         else:
             path = "D:\\eParlamentar\\"

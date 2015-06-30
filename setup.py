@@ -6,5 +6,5 @@ setup(name='eParlamentar',
       author='Israel P. Siqueira',
       author_email='israelps@gmail.com',
       url='http://www.python.org/sigs/distutils-sig/',
-      install_requires=['Flask', 'MarkupSafe', 'Flask-SQLAlchemy','lxml'],
+      install_requires=['Flask', 'MarkupSafe', 'Flask-SQLAlchemy','lxml','ZipFile'],
       )
