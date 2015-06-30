@@ -1,7 +1,5 @@
 import locale
-
 from flask import Flask, render_template, redirect
-import os
 from models import Despesa
 from models import Deputado
 from models import db
@@ -65,14 +63,9 @@ def deputado(ideCadastro):
                            total=locale.currency(total, grouping=True))
 
 
-@app.route('/atualizaDeputados')
+@app.route('/atualizaDatabase')
 def atualiza_deputados():
     Deputado.atualiza_database()
-    return redirect('/deputados')
-
-
-@app.route('/atualizaDespesas')
-def atualiza_despesas():
     Despesa.atualiza_database()
     return redirect('/deputados')
 

@@ -5,6 +5,7 @@ from urllib import urlretrieve
 from zipfile import ZipFile
 import os
 from lxml import etree
+from sqlalchemy.orm.util import all_cascades
 
 db = SQLAlchemy()
 
@@ -30,6 +31,7 @@ class Deputado(db.Model):
     @classmethod
     def atualiza_database(self):
         db.drop_all()
+
         db.create_all()
         data = urllib2.urlopen("http://www.camara.gov.br/SitCamaraWS/Deputados.asmx/ObterDeputados").read()
         deputados = etree.XML(data)
@@ -120,7 +122,7 @@ class Despesa(db.Model):
             except:
                 ano = ''
             try:
-                fornecedor = despesa.find('txtFornecedor').text
+                fornecedor = despesa.find('txtBeneficiario').text
             except:
                 fornecedor = ''
             try:
