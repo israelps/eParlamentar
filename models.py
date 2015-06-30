@@ -73,8 +73,8 @@ class Despesa(db.Model):
     @classmethod
     def atualiza_database(self):
 
-        if os.environ.get('OPENSHIFT_TMP_DIR'):
-            path = os.environ.get('OPENSHIFT_TMP_DIR')
+        if os.environ.get('OPENSHIFT_DATA_DIR'):
+            path = os.environ.get('OPENSHIFT_DATA_DIR')
         else:
             path = "D:\\eParlamentar\\"
 
