@@ -72,14 +72,15 @@ class Despesa(db.Model):
     def atualiza_database(self):
 
         if os.environ.get('OPENSHIFT_TMP_DIR'):
-            url = 'http://www.camara.gov.br/cotas/AnoAtual.zip'
             path = os.environ.get('OPENSHIFT_TMP_DIR')
-            arquivo = path+'AnoAtual.zip'
-            urlretrieve(url, arquivo)
-            with ZipFile(arquivo) as zf:
-                zf.extractall(path)
         else:
             path = "D:\\eParlamentar\\"
+
+        url = 'http://www.camara.gov.br/cotas/AnoAtual.zip'
+        arquivo = path + 'AnoAtual.zip'
+        urlretrieve(url, arquivo)
+        with ZipFile(arquivo) as zf:
+            zf.extractall(path)
 
         tree = etree.parse(path + "AnoAtual.xml")
         despesas = tree.getroot()[0]
