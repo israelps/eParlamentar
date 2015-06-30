@@ -78,6 +78,8 @@ def deputado(ideCadastro):
         if despesa.mes == 12:
             valores['dez']+= despesa.valor
 
+
+
     return render_template('deputado.html', valores=valores,despesas=despesas, deputado=deputado, total=locale.currency(total, grouping=True))
 
 

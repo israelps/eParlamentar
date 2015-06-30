@@ -1,6 +1,9 @@
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask import g
+from datetime import datetime
 import urllib2
+from urllib import urlretrieve
+import ZipFile
+import os
 from lxml import etree
 
 db = SQLAlchemy()
@@ -18,6 +21,7 @@ class Deputado(db.Model):
     fone = db.Column(db.String(15))
     email = db.Column(db.String(200))
     url_foto = db.Column(db.String(300))
+    ultima_atualizacao = db.Column(db.DateTime)
     despesas = db.relationship('Despesa', backref='deputado', lazy='dynamic')
 
     def __repr__(self):
@@ -45,7 +49,7 @@ class Deputado(db.Model):
                 url_foto = deputado.find('urlFoto').text
                 dep = Deputado(id=id, nome_parlamentar=nome_parlamentar, nome=nome, condicao=condicao,
                                uf=uf, partido=partido, gabinete=gabinete, anexo=anexo, fone=fone, email=email,
-                               url_foto=url_foto)
+                               url_foto=url_foto, ultima_atualizacao=datetime.today())
                 db.session.add(dep)
 
         db.session.commit()
@@ -67,7 +71,16 @@ class Despesa(db.Model):
     @classmethod
     def atualiza_database(self):
 
-        tree = etree.parse("D:\eParlamentar\AnoAtual.xml")
+        if os.environ.get('OPENSHIFT_TMP_DIR'):
+            url = 'http://www.camara.gov.br/cotas/AnoAtual.zip'
+            path = os.environ.get('OPENSHIFT_TMP_DIR')
+            urlretrieve(url, path)
+            with ZipFile(path+'AnoAtual.zip') as zf:
+                zf.extractall(path)
+        else:
+            path = "D:\\eParlamentar\\"
+
+        tree = etree.parse(path + "AnoAtual.xml")
         despesas = tree.getroot()[0]
 
         for despesa in despesas:
@@ -75,7 +88,7 @@ class Despesa(db.Model):
             try:
                 num_ressarcimento = int(despesa.find('numRessarcimento').text)
             except:
-                numRessarcimento = 0
+                num_ressarcimento = 0
             try:
                 uf = despesa.find('sgUF').text
             except:
@@ -114,7 +127,8 @@ class Despesa(db.Model):
                 deputado_id = 0
 
             deputado = Deputado.query.get(deputado_id)
-            d = Despesa(num_ressarcimento=num_ressarcimento, num_subcota=num_subcota ,deputado_id=deputado_id, uf=uf, partido=partido,
+            d = Despesa(num_ressarcimento=num_ressarcimento, num_subcota=num_subcota, deputado_id=deputado_id, uf=uf,
+                        partido=partido,
                         descricao=descricao, fornecedor=fornecedor, valor=valor, mes=mes,
                         ano=ano, deputado=deputado)
             db.session.add(d)
