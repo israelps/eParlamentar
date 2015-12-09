@@ -76,7 +76,7 @@ class Despesa(db.Model):
         if os.environ.get('OPENSHIFT_DATA_DIR'):
             path = os.environ.get('OPENSHIFT_DATA_DIR')
         else:
-            path = "D:\\eParlamentar\\"
+            path = "D:\\pyProjects\\eparlamentar\\data\\"
 
         url = 'http://www.camara.gov.br/cotas/AnoAtual.zip'
         arquivo = path + 'AnoAtual.zip'
